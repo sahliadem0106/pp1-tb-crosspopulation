@@ -7,7 +7,7 @@
 - **THREE FINDINGS (CI-based):** (1) Shenzhen significantly BEATS NIH (CI fully above) — proxy transfers better than home score; confirmed labels + severity likely dominate. (2) Montgomery ≈ NIH, point estimate higher, too noisy (n=138). (3) Qatar near chance, CI fully disjoint from all others — THE cross-population failure, dataset-specific, real. (4) Bonus: even NIH fails WHO-operability (spec 0.32 at sens 0.90) — not deployable anywhere.
 - **SIGNIFICANCE (bootstrap diff CIs, n_boot=200):** NIH vs Shenzhen diff CI [-0.093, -0.020] → SIGNIFICANT (Shenzhen beats NIH). NIH vs Qatar [+0.116, +0.170] → SIGNIFICANT (Qatar fails). NIH vs Montgomery [-0.106, +0.073] → not significant (n=138). **Results section statistically complete.**
 - **Paper narrative:** transfers rank-wise to real-TB populations but fails on MENA (Qatar) and cannot meet WHO operating requirements anywhere. Discussion: label quality, severity bias, dataset-specific shift, Qatar artifact caveat.
-- **Environment note:** moved to Google Colab (Kaggle phone verification blocked). Data via kagglehub (public datasets, no token needed); checkpoint uploaded via files.upload(); CPU inference fine. Outputs in /content, download via Colab Files panel → Documents/PP1/results/.
+- **Environment note:** moved to Google Colab (Kaggle phone verification blocked). Data via kagglehub (public datasets, no token needed); checkpoint uploaded via files.upload(); CPU inference fine. Outputs in /content, download via the Colab Files panel into the `results/` folder.
 
 ## 2026-08-13 — PHASE 6 UMAP + BIOMEDCLIP ZERO-SHOT (the foundation-model comparison):
 - **BiomedCLIP zero-shot AUCs (no training, hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224, prompts "infiltration"/"no abnormality"):** NIH 0.633 (vs DenseNet 0.715), Montgomery 0.850 (vs 0.739), Shenzhen 0.650 (vs 0.769), Qatar RGB 0.849 / **color-neutralized 0.838** (vs DenseNet 0.571).
@@ -48,7 +48,7 @@
 - **Split decided**: patient-level 70/15/15 stratified by Patient ID (prevents patient leakage — upgrade over the Qatar notebook's random image split).
 
 ## 2026-08-09
-- **Qatar TB investigation CLOSED.** Full chain of reasoning: `la future si on vivre/tb-investigation-full-log.md`. Key outcomes:
+- **Qatar TB investigation CLOSED.** Full chain of reasoning in the local Qatar investigation log. Key outcomes:
   - Color artifact confirmed at file level (TB ~half colored vs Normal all gray) — latent for our pipeline (grayscale transform verified R==G==B).
   - Grayscale signal weak (entropy AUC 0.84).
   - **"0.98 grayscale → multi-source leak" RETRACTED** — stale-kernel run; do not cite.
@@ -57,7 +57,7 @@
 - **Decision: Qatar TB = external test 3 ONLY, never training.** Reported numbers carry the caveat (Limitations paragraph).
 - **Fix list established** for the NIH pipeline: held-out eval, weighted loss wired in, freeze early layers + lr 1e-4 + cosine decay, best-checkpoint by dev AUC, per-class P/R/F1, seeds + grad clipping.
 - **Training instability lesson**: same code, unseeded → recall swung 0.43/0.60/~1.00/0.19/0.36 across runs; one total collapse (19% acc). Seed everything.
-- Annotated teaching notebook produced: `Downloads/qatar-tb-annotated.ipynb` (code identical to the run).
+- Annotated teaching notebook produced (code identical to the run).
 
 ## 2026-08-08
 - **PadChest DROPPED** as external test 3 (agreement wait not worth it; not a TB set anyway). Replaced by **Qatar TB** (Kaggle tawsifurrahman, 700 TB / 3500 Normal, Hamad Medical — MENA proxy).

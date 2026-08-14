@@ -2,7 +2,7 @@
 
 > Status: PLAN · Owner: ademsahlii (first author) · Division: me=structure/draft, him=edit/judge, Claude=voice
 > Skills used: `research-paper-drafting` (workflow/order) + `sida-peng-paper-writing` (section method) + `research-paper-writing` (Orchestra pipeline, 103KB)
-> Deliverables live in `Documents/PP1/paper/`.
+> Deliverables live in the `paper/` folder.
 
 ---
 
