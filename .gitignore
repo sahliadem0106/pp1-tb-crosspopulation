@@ -1,0 +1,19 @@
+# Large binaries (host separately / via releases)
+*.pt
+*.pth
+*.zip
+*.tar.gz
+
+# Data (downloaded, not committed)
+data/
+
+# Notebooks / Python
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db

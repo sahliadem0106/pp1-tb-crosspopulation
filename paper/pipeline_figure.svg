@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1200" height="720" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="600" y="42" text-anchor="middle" font-size="22" font-weight="bold" fill="#111">Cross-population evaluation of a proxy-trained TB model</text>
+
+  <!-- TRAIN box -->
+  <rect x="400" y="70" width="400" height="95" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2"/>
+  <text x="600" y="100" text-anchor="middle" font-size="17" font-weight="bold" fill="#1a73e8">TRAIN</text>
+  <text x="600" y="122" text-anchor="middle" font-size="14" fill="#222">NIH ChestX-ray14</text>
+  <text x="600" y="142" text-anchor="middle" font-size="12.5" fill="#444">112,120 images · "Infiltration" proxy · 224px</text>
+
+  <!-- arrow -->
+  <line x1="600" y1="165" x2="600" y2="200" stroke="#555" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="620" y="186" font-size="12" fill="#555">full fine-tune</text>
+
+  <!-- MODEL box -->
+  <rect x="450" y="200" width="300" height="70" rx="10" fill="#f3e8fd" stroke="#7c3aed" stroke-width="2"/>
+  <text x="600" y="230" text-anchor="middle" font-size="16" font-weight="bold" fill="#7c3aed">DenseNet-121</text>
+  <text x="600" y="252" text-anchor="middle" font-size="12.5" fill="#444">test AUC 0.715 · frozen after training</text>
+
+  <!-- arrow -->
+  <line x1="600" y1="270" x2="600" y2="300" stroke="#555" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="620" y="290" font-size="12" fill="#555">zero-shot inference</text>
+
+  <!-- EXTERNAL boxes -->
+  <rect x="70" y="300" width="320" height="105" rx="10" fill="#e6f4ea" stroke="#188038" stroke-width="2"/>
+  <text x="230" y="328" text-anchor="middle" font-size="15" font-weight="bold" fill="#188038">Montgomery (USA)</text>
+  <text x="230" y="350" text-anchor="middle" font-size="12.5" fill="#333">n = 138 · 58 TB</text>
+
+  <rect x="440" y="300" width="320" height="105" rx="10" fill="#fef7e0" stroke="#b06000" stroke-width="2"/>
+  <text x="600" y="328" text-anchor="middle" font-size="15" font-weight="bold" fill="#b06000">Shenzhen (China)</text>
+  <text x="600" y="350" text-anchor="middle" font-size="12.5" fill="#333">n = 662 · 336 TB</text>
+
+  <rect x="810" y="300" width="320" height="105" rx="10" fill="#fce8e6" stroke="#d93025" stroke-width="2"/>
+  <text x="970" y="328" text-anchor="middle" font-size="15" font-weight="bold" fill="#d93025">Qatar (MENA)</text>
+  <text x="970" y="350" text-anchor="middle" font-size="12.5" fill="#333">n = 4,200 · 700 TB · color artifact</text>
+
+  <!-- arrows down from each -->
+  <line x1="230" y1="405" x2="230" y2="440" stroke="#555" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="600" y1="405" x2="600" y2="440" stroke="#555" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="970" y1="405" x2="970" y2="440" stroke="#555" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- RESULTS boxes -->
+  <rect x="70" y="440" width="320" height="90" rx="10" fill="#ffffff" stroke="#188038" stroke-width="2"/>
+  <text x="230" y="475" text-anchor="middle" font-size="24" font-weight="bold" fill="#188038">AUC 0.739</text>
+  <text x="230" y="500" text-anchor="middle" font-size="12" fill="#555">≈ home score</text>
+
+  <rect x="440" y="440" width="320" height="90" rx="10" fill="#ffffff" stroke="#b06000" stroke-width="2"/>
+  <text x="600" y="475" text-anchor="middle" font-size="24" font-weight="bold" fill="#b06000">AUC 0.769</text>
+  <text x="600" y="500" text-anchor="middle" font-size="12" fill="#555">beats home score</text>
+
+  <rect x="810" y="440" width="320" height="90" rx="10" fill="#ffffff" stroke="#d93025" stroke-width="2"/>
+  <text x="970" y="475" text-anchor="middle" font-size="24" font-weight="bold" fill="#d93025">AUC 0.571</text>
+  <text x="970" y="500" text-anchor="middle" font-size="12" fill="#555">near chance — FAILS</text>
+
+  <!-- bottom bar -->
+  <rect x="150" y="580" width="900" height="90" rx="10" fill="#f1f3f4" stroke="#666" stroke-width="1.5"/>
+  <text x="600" y="615" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">Failure is a decision-process shortcut, not distribution shift</text>
+  <text x="600" y="642" text-anchor="middle" font-size="12.5" fill="#333">Grad-CAM: stereotyped RUL prior · UMAP: Qatar not an island · zero-shot BiomedCLIP AUC 0.838</text>
+  <text x="600" y="662" text-anchor="middle" font-size="12" fill="#888">At WHO sensitivity ≥ 0.90, specificity collapses on every dataset (0.11–0.38)</text>
+
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#555"/>
+    </marker>
+  </defs>
+</svg>
