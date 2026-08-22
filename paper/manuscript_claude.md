@@ -43,6 +43,8 @@ Medical imaging models are known to degrade under distribution shift, difference
 ### Shortcut learning and dataset bias
 Deep classifiers frequently rely on spurious correlations, "shortcuts", rather than the medically meaningful signal: patient-position laterality markers, scan overlays, or acquisition-specific color and texture biases (Geirhos et al., 2020; Zech et al., 2018). Such shortcuts inflate within-distribution accuracy and silently break under shift (Geirhos et al., 2020). Our Grad-CAM and representation analyses ask whether the observed cross-population failure is a consequence of shortcut-dependent decision processes rather than data being out-of-distribution.
 
+***Relationship to causal inference.*** Shortcut reliance is closely related to the causal-inference notion of confounding: the model exploits features that are spuriously, rather than causally, associated with the label, and fails when that association shifts across populations (Pearl, 2009). Framing the observed cross-population collapse as a non-causal, confounded decision process, rather than a covariate-shift property of the data, connects the shortcut-learning literature to a causal account of generalization failure.
+
 ### Foundation models and zero-shot transfer for medical imaging
 Contrastive image-text foundation models pretrained on large biomedical corpora (BiomedCLIP, ~15M image-text pairs) transfer to downstream tasks with little or no task-specific training (Zhang et al., 2023). A key open question is whether such generalist models generalize across populations better than task-specialists fine-tuned on proxy-labeled data; we address this directly below.
 
@@ -206,6 +208,7 @@ Geirhos, R., Jacobsen, J.-H., Michaelis, C., Zemel, R., Brendel, W., Bethge, M.,
 Irvin, J., Rajpurkar, P., Ko, M., Yu, Y., Ciurea-Ilcus, S., Chute, C., et al. (2019). CheXpert: A large chest radiograph dataset with uncertainty labels and expert comparison. *Proceedings of the AAAI Conference on Artificial Intelligence*, 33(01), 590–597.
 
 Murphy, K., Habib, S. S., Zaidi, S. M. A., Khowaja, S., Khan, A., Melendez, J., et al. (2020). Computer-aided detection of tuberculosis on chest radiographs: An evaluation of the CAD4TB v6 system. *Scientific Reports*, 10, 5492.
+Pearl, J. (2009). *Causality: Models, Reasoning, and Inference* (2nd ed.). Cambridge University Press.
 
 Rajpurkar, P., Irvin, J., Zhu, K., Yang, B., Mehta, H., Duan, T., et al. (2017). CheXNet: Radiologist-level pneumonia detection on chest X-rays with deep learning. *arXiv preprint* arXiv:1711.05225.
 
