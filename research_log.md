@@ -2,6 +2,38 @@
 
 > Rule: log every decision with a date. This becomes the Methods section and protects against forgetting.
 
+> NOTE (2026-11-07): entries for 2026-08-14 → 2026-10-07 were reconstructed on this date from the git history, the results CSVs, and the manuscript. Where the exact day was not recorded it is written as a month. Nothing here is inferred from memory alone.
+
+## 2026-10-08 — DATASET PROVENANCE CHECK (step 0 before the DOI)
+- **Question:** is "Qatar TB = MENA population" defensible? Checked against the dataset's own IEEE DataPort record (Rahman, Khandakar, Chowdhury; DOI 10.21227/mps8-kb56; created 2020-10-20, updated 2022-05-18).
+- **Verdict: the population claim does not survive.** The 4,200-image public subset is a **multi-source composite curated by Qatar University**, assembled from: NLM (Montgomery + Shenzhen), a Belarus NIAID drug-resistance collection, the NIAID TB portal (~3,000 TB), and RSNA pneumonia (~30,000, 10,000 normal). Only the curators are Qatari.
+- **Three consequences:** (1) no MENA/population claim anywhere in title, subtitle, abstract, intro, contributions, related work; (2) RSNA derives from NIH ChestX-ray14, i.e. our own training corpus — any RSNA images inside the 3,500 normals are in-distribution, not external; (3) Montgomery and Shenzhen are themselves listed sources of this collection, so the three external sets are not guaranteed independent.
+- **What survives:** the headline (specialist collapses, zero-shot BiomedCLIP succeeds on the same images, mechanism is decision-side). What changes is the name of the third set and the need for a dedup pass.
+- **Remaining work:** per-image source metadata check (`metadata.xlsx` ships with the set), pHash dedup at a fixed threshold (256 px grayscale; NIH train + Montgomery + Shenzhen + collection), recompute the third-set cell of Table 1 after removal, rewrite the Limitations paragraph, then get the DOI.
+- **Written up in:** `paper/provenance_check.md`.
+
+## 2026-10-06 — PROGRAM PLAN REWRITTEN AS A CHAIN, NOT A STACK
+- One real build at a time, ordered by what each project buys: **PP1 fixes + DOI → PP2 (Grad-CAM vs radiologist boxes, with an always-RUL control and a move-the-lesion check) → A (does MiniGPT-Med look where it speaks) → C (learning a new disease from words, continual zero-shot) → D (when the conformal guarantee breaks under population shift)**, with **B** (token pruning vs localization) and **E** (synthetic change probe) banked.
+- Naming trap to keep straight: the chain's "PP2" is the old **PP5 "Beyond the Heatmap"** renamed. Same recon, same locked design.
+- Every project was checked against the literature the same day; verdicts and the still-ours angle are recorded in the chain document.
+
+## 2026-09-15 — CLEAN-NEGATIVE RETRAIN + PAIRED ABLATION (the protocol question answered with an experiment)
+- **The discrepancy being tested:** Methods described the filtered protocol (positives = Infiltration, negatives = No Finding only → 19,870 / 60,412, ratio ≈ 1:3.0), but the original run's negative pool had included other-finding images (≈ 19,894 / 92,226, ratio 1:4.6).
+- **Pipeline identity verified first:** the retrained pipeline reproduced the paper's home AUC to four decimals (expected 0.7153 | got 0.7153), so the inference path is provably the same code.
+- **Clean run:** 80,282 rows (19,870 pos / 60,412 neg); split 56,725 / 11,308 / 12,249; pos_weight 3.0097; best dev AUC 0.7794 at epoch 7, early stop at 13.
+- **Results (12,249 shared images):** clean model / clean test **0.7710** [0.7618, 0.7805]; mixed model / clean test **0.7528** [0.7448, 0.7625]; mixed / full test (the paper's number) 0.7153; clean / full test 0.7025.
+- **Paired statistics on the same 12,249 images (12,249/12,249 joined, 0 label disagreements):** DeLong Δ +0.0182, Z = 5.20, **p < 0.0001**, CI [+0.0113, +0.0250]; paired bootstrap (2000) Δ +0.0183, CI [+0.0114, +0.0253], P(Δ>0) = 1.000; specificity at fixed 90% sensitivity 0.394 vs 0.375 (+1.9 pp, CI [+0.003, +0.043]); McNemar at 0.5: 1120 vs 1051 discordant, p = 0.144 (ns). Clinically: 174 fewer false positives on 9,233 negatives.
+- **Wording rule (locked):** this is a *protocol effect*, never an "improvement". Each model wins under its own protocol. Trap: the two separate 95% CIs overlap by 0.0007, so an overlap read says "no difference" while the paired test says p < 0.0001 — same-image comparisons need paired tests.
+- **Known gap at this date:** the external-eval cell of the committed run failed (`BackendError: New Datasets cannot be attached in non-interactive sessions` — kagglehub cannot first-time-download inside a commit). Montgomery / Shenzhen / Qatar were never re-run on the clean model. **The ablation notebook itself is not on disk; only `results/paired_clean_vs_mixed_test.csv` survived.**
+
+## 2026-09 — MEDRXIV REJECTED ON SCOPE
+- Manuscript ID MS MEDRXIV/2026/360550. Rejected at the scope screen (student-project screen), **not** on scientific content. Never write "published on medRxiv".
+- Path forward: preprints.org or ResearchSquare (immediate DOI) → arXiv cs.CV (needs a real endorser since 2026-01-21) → MICCAI 2027 DALI workshop (LNCS).
+
+## 2026-08-22 — MANUSCRIPT REBALANCED AND FROZEN
+- Six commits this stretch, all editorial: teaser float placement, running head, author repo URL, removal of the AUTHOR PLACEHOLDER comment, a rebalance that foregrounds the positive-transfer result and tones the mechanism down to "consistent with", and a causal-inference bridge paragraph (Pearl 2009) added to the shortcut-learning section.
+- Nothing in this stretch touched the experiment. The paper has not changed since.
+
 ## 2026-08-13 — PHASE 5 EXTERNAL RESULTS (THE HEADLINE) — NIH-trained DenseNet121 (test AUC 0.7153), frozen, evaluated on 3 external populations:
 - **FINAL TABLE 1:** NIH test 17260: AUC 0.715 [0.707-0.725], P 0.313/R 0.574/F1 0.405, WHO t=0.203 sens 0.900 spec 0.320. Montgomery 138: AUC 0.739 [0.650-0.813], P 0.917/R 0.190/F1 0.314, WHO t=0.065 sens 0.914 spec 0.112. Shenzhen 662: AUC 0.769 [0.734-0.802], P 0.882/R 0.199/F1 0.325, WHO t=0.073 sens 0.902 spec 0.383. Qatar 4200: AUC 0.571 [0.546-0.594], P 0.230/R 0.319/F1 0.267, WHO t=0.088 sens 0.903 spec 0.139.
 - **THREE FINDINGS (CI-based):** (1) Shenzhen significantly BEATS NIH (CI fully above) — proxy transfers better than home score; confirmed labels + severity likely dominate. (2) Montgomery ≈ NIH, point estimate higher, too noisy (n=138). (3) Qatar near chance, CI fully disjoint from all others — THE cross-population failure, dataset-specific, real. (4) Bonus: even NIH fails WHO-operability (spec 0.32 at sens 0.90) — not deployable anywhere.
