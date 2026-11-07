@@ -56,9 +56,13 @@ The model checkpoint and the packed artifacts are attached to the GitHub release
 
 - The clean-negative retrain notebook, which produced the ablation behind `results/paired_clean_vs_mixed_test.csv`, is not in this repository. Only the joined per-image CSV survived. The statistics reproduce from it; the training does not.
 - `table2_zero_shot.csv` was never written to disk. The Table 2 numbers exist in the notebook output and in the manuscript.
-- The four protocol corrections described in [`docs/protocol_note.md`](docs/protocol_note.md) are drafted but not yet applied to the manuscript.
+- The perceptual-hash deduplication of the third collection has not been run. Until it is, the paper states that image-level overlap with the training corpus and the other external sets cannot be excluded.
 
 ## Author
 
 Adem Sahli — Higher Institute of Computer Science (ISI), Tunisia.
 ORCID: [0009-0003-0749-0575](https://orcid.org/0009-0003-0749-0575)
+
+## License
+
+Code is under the MIT License ([`LICENSE`](LICENSE)). The manuscript, documentation and figures are under CC BY 4.0 ([`LICENSE-docs`](LICENSE-docs)).
